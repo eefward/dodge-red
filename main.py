@@ -10,8 +10,6 @@ pygame.display.set_caption("dodge red")
 clock = pygame.time.Clock()
 font = pygame.font.SysFont(None, 36)
 
-BG = (255, 255, 255)
-
 # variables
 redRadius = 20
 blueRadius = 15
@@ -65,7 +63,7 @@ def resetGame():
 resetGame()
 
 while True:
-    screen.fill(BG)
+    screen.fill((255, 255, 255))
     seconds = (pygame.time.get_ticks() - ticks) // 1000
 
     for event in pygame.event.get():
@@ -75,7 +73,7 @@ while True:
 
     redPos = list(pygame.mouse.get_pos())
 
-    if len(blueCircles) < 1 + (seconds // 4):
+    if len(blueCircles) < 1 + (seconds // 3):
         blueCircles.append(spawnBlue())
 
     for i in range(len(blueCircles)):
