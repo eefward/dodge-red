@@ -4,7 +4,7 @@ import random
 import math
 
 pygame.init()
-pygame.display.set_caption("dodge red")
+pygame.display.set_caption("dodge blue")
 
 # init
 WIDTH, HEIGHT = 1000, 600
