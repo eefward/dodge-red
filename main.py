@@ -52,10 +52,10 @@ def collideCircles(circle1, circle2):
     circle2['vel'][1] -= dot * ny
 
     overlap = 2 * blueRadius - dist
-    a['pos'][0] -= nx * overlap / 2
-    a['pos'][1] -= ny * overlap / 2
-    b['pos'][0] += nx * overlap / 2
-    b['pos'][1] += ny * overlap / 2
+    circle1['pos'][0] -= nx * overlap / 2
+    circle1['pos'][1] -= ny * overlap / 2
+    circle2['pos'][0] += nx * overlap / 2
+    circle2['pos'][1] += ny * overlap / 2
 
 def resetGame():
     global blueCircles, ticks
