@@ -26,8 +26,8 @@ def spawnBlue():
     vy = blueSpeed * math.sin(angle)
     return {'pos': [x, y], 'vel': [vx, vy]}
 
-def distance(pos1, pos2):
-    return math.sqrt((pos1[0] - pos2[0])**2 + (pos1[1] - pos2[1])**2)
+def distance(pos2, pos1):
+    return math.sqrt((pos2[0] - pos1[0])**2 + (pos2[1] - pos1[1])**2)
 
 def collideCircles(circle1, circle2):
     dx = circle2['pos'][0] - circle1['pos'][0]
