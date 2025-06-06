@@ -14,7 +14,6 @@ RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 BG = (255, 255, 255)
 
-
 red_radius = 20
 blue_radius = 15
 blue_speed = 2
