@@ -21,7 +21,7 @@ blueCircles = []
 def spawnBlue():
     x = random.randint(blueRadius, WIDTH - blueRadius)
     y = random.randint(blueRadius, HEIGHT - blueRadius)
-    angle = random.uniform(0, 2 * math.pi)
+    angle = random.uniform(0, 360)
     vx = blueSpeed * math.cos(angle)
     vy = blueSpeed * math.sin(angle)
     return {'pos': [x, y], 'vel': [vx, vy]}
