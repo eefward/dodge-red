@@ -26,12 +26,12 @@ def spawnBlue():
     vy = blueSpeed * math.sin(angle)
     return {'pos': [x, y], 'vel': [vx, vy]}
 
-def distance(a, b):
-    return math.hypot(a[0] - b[0], a[1] - b[1])
+def distance(pos1, pos2):
+    return math.sqrt((pos1[0] - pos2[0])**2 + (pos1[1] - pos2[1])**2)
 
-def collideCircles(a, b):
-    dx = b['pos'][0] - a['pos'][0]
-    dy = b['pos'][1] - a['pos'][1]
+def collideCircles(circle1, circle2):
+    dx = circle2['pos'][0] - circle1['pos'][0]
+    dy = circle2['pos'][1] - circle1['pos'][1]
     dist = math.hypot(dx, dy)
     if dist == 0 or dist > 2 * blueRadius:
         return  
@@ -39,17 +39,17 @@ def collideCircles(a, b):
     nx = dx / dist
     ny = dy / dist
 
-    dvx = b['vel'][0] - a['vel'][0]
-    dvy = b['vel'][1] - a['vel'][1]
+    dvx = circle2['vel'][0] - circle1['vel'][0]
+    dvy = circle2['vel'][1] - circle1['vel'][1]
 
     dot = dvx * nx + dvy * ny
     if dot > 0:
         return  
 
-    a['vel'][0] += dot * nx
-    a['vel'][1] += dot * ny
-    b['vel'][0] -= dot * nx
-    b['vel'][1] -= dot * ny
+    circle1['vel'][0] += dot * nx
+    circle1['vel'][1] += dot * ny
+    circle2['vel'][0] -= dot * nx
+    circle2['vel'][1] -= dot * ny
 
     overlap = 2 * blueRadius - dist
     a['pos'][0] -= nx * overlap / 2
@@ -103,10 +103,12 @@ while True:
         bx += vx
         by += vy
 
+        # bounce off left/right walls
         if bx <= blueRadius or bx >= WIDTH - blueRadius:
             vx *= -1
             bx = max(blueRadius, min(WIDTH - blueRadius, bx))
-        if by <= blueRadius or by >= HEIGHT - blueRadius:
+        # bounce off top/bottom walls
+        elif by <= blueRadius or by >= HEIGHT - blueRadius:
             vy *= -1
             by = max(blueRadius, min(HEIGHT - blueRadius, by))
 
@@ -125,4 +127,4 @@ while True:
     screen.blit(timer, (10, 10))
 
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick(60) # frames per second
