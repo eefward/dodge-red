@@ -10,21 +10,20 @@ pygame.display.set_caption("dodge red")
 clock = pygame.time.Clock()
 font = pygame.font.SysFont(None, 36)
 
-RED = (255, 0, 0)
-BLUE = (0, 0, 255)
 BG = (255, 255, 255)
 
-red_radius = 20
-blue_radius = 15
-blue_speed = 2
-blue_circles = []
+# variables
+redRadius = 20
+blueRadius = 15
+blueSpeed = 2
+blueCircles = []
 
 def spawnBlue():
-    x = random.randint(blue_radius, WIDTH - blue_radius)
-    y = random.randint(blue_radius, HEIGHT - blue_radius)
+    x = random.randint(blueRadius, WIDTH - blueRadius)
+    y = random.randint(blueRadius, HEIGHT - blueRadius)
     angle = random.uniform(0, 2 * math.pi)
-    vx = blue_speed * math.cos(angle)
-    vy = blue_speed * math.sin(angle)
+    vx = blueSpeed * math.cos(angle)
+    vy = blueSpeed * math.sin(angle)
     return {'pos': [x, y], 'vel': [vx, vy]}
 
 def distance(a, b):
@@ -34,7 +33,7 @@ def collideCircles(a, b):
     dx = b['pos'][0] - a['pos'][0]
     dy = b['pos'][1] - a['pos'][1]
     dist = math.hypot(dx, dy)
-    if dist == 0 or dist > 2 * blue_radius:
+    if dist == 0 or dist > 2 * blueRadius:
         return  
 
     nx = dx / dist
@@ -52,50 +51,50 @@ def collideCircles(a, b):
     b['vel'][0] -= dot * nx
     b['vel'][1] -= dot * ny
 
-    overlap = 2 * blue_radius - dist
+    overlap = 2 * blueRadius - dist
     a['pos'][0] -= nx * overlap / 2
     a['pos'][1] -= ny * overlap / 2
     b['pos'][0] += nx * overlap / 2
     b['pos'][1] += ny * overlap / 2
 
 def resetGame():
-    global blue_circles, start_ticks
-    blue_circles = [spawnBlue()]
-    start_ticks = pygame.time.get_ticks()
+    global blueCircles, ticks
+    blueCircles = [spawnBlue()]
+    ticks = pygame.time.get_ticks()
 
 resetGame()
 
 while True:
     screen.fill(BG)
-    seconds = (pygame.time.get_ticks() - start_ticks) // 1000
+    seconds = (pygame.time.get_ticks() - ticks) // 1000
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
 
-    red_pos = list(pygame.mouse.get_pos())
+    redPos = list(pygame.mouse.get_pos())
 
-    if len(blue_circles) < 1 + (seconds // 4):
-        blue_circles.append(spawnBlue())
+    if len(blueCircles) < 1 + (seconds // 4):
+        blueCircles.append(spawnBlue())
 
-    for i in range(len(blue_circles)):
-        for j in range(i + 1, len(blue_circles)):
-            collideCircles(blue_circles[i], blue_circles[j])
+    for i in range(len(blueCircles)):
+        for j in range(i + 1, len(blueCircles)):
+            collideCircles(blueCircles[i], blueCircles[j])
 
-    for blue in blue_circles:
+    for blue in blueCircles:
         bx, by = blue['pos']
         vx, vy = blue['vel']
 
-        dx = red_pos[0] - bx
-        dy = red_pos[1] - by
+        dx = redPos[0] - bx
+        dy = redPos[1] - by
         dist = math.hypot(dx, dy)
         if dist != 0:
             vx += 0.05 * dx / dist
             vy += 0.05 * dy / dist
 
         speed = math.hypot(vx, vy)
-        max_speed = blue_speed * 2
+        max_speed = blueSpeed * 2
         if speed > max_speed:
             vx = (vx / speed) * max_speed
             vy = (vy / speed) * max_speed
@@ -103,23 +102,23 @@ while True:
         bx += vx
         by += vy
 
-        if bx <= blue_radius or bx >= WIDTH - blue_radius:
+        if bx <= blueRadius or bx >= WIDTH - blueRadius:
             vx *= -1
-            bx = max(blue_radius, min(WIDTH - blue_radius, bx))
-        if by <= blue_radius or by >= HEIGHT - blue_radius:
+            bx = max(blueRadius, min(WIDTH - blueRadius, bx))
+        if by <= blueRadius or by >= HEIGHT - blueRadius:
             vy *= -1
-            by = max(blue_radius, min(HEIGHT - blue_radius, by))
+            by = max(blueRadius, min(HEIGHT - blueRadius, by))
 
         blue['pos'] = [bx, by]
         blue['vel'] = [vx, vy]
 
-        if distance(blue['pos'], red_pos) < red_radius + blue_radius:
+        if distance(blue['pos'], redPos) < redRadius + blueRadius:
             resetGame()
 
-    pygame.draw.circle(screen, RED, red_pos, red_radius)
+    pygame.draw.circle(screen, (255, 0, 0), redPos, redRadius)
 
-    for blue in blue_circles:
-        pygame.draw.circle(screen, BLUE, (int(blue['pos'][0]), int(blue['pos'][1])), blue_radius)
+    for blue in blueCircles:
+        pygame.draw.circle(screen, (0, 0, 255), (int(blue['pos'][0]), int(blue['pos'][1])), blueRadius)
 
     timer_text = font.render(f"Time: {seconds}s", True, (0, 0, 0))
     screen.blit(timer_text, (10, 10))
