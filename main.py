@@ -6,7 +6,7 @@ import math
 pygame.init()
 WIDTH, HEIGHT = 1200, 800
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Dodge Red")
+pygame.display.set_caption("dodge red")
 clock = pygame.time.Clock()
 font = pygame.font.SysFont(None, 36)
 
