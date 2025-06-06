@@ -4,9 +4,11 @@ import random
 import math
 
 pygame.init()
+pygame.display.set_caption("dodge red")
+
+# init
 WIDTH, HEIGHT = 1000, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("dodge red")
 clock = pygame.time.Clock()
 font = pygame.font.SysFont(None, 36)
 
@@ -60,8 +62,9 @@ def resetGame():
     blueCircles = [spawnBlue()]
     ticks = pygame.time.get_ticks()
 
-resetGame()
+# game loop
 
+resetGame()
 while True:
     screen.fill((255, 255, 255))
     seconds = (pygame.time.get_ticks() - ticks) // 1000
@@ -73,7 +76,7 @@ while True:
 
     redPos = list(pygame.mouse.get_pos())
 
-    if len(blueCircles) < 1 + (seconds // 3):
+    if len(blueCircles) < 1 + (seconds // 3): # ball spawn time
         blueCircles.append(spawnBlue())
 
     for i in range(len(blueCircles)):
