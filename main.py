@@ -113,7 +113,7 @@ while True:
         blue['pos'] = [bx, by]
         blue['vel'] = [vx, vy]
 
-        if distance(blue['pos'], redPos) < redRadius + blueRadius:
+        if distance(blue['pos'], redPos) < redRadius + blueRadius: # death
             resetGame()
 
     pygame.draw.circle(screen, (255, 0, 0), redPos, redRadius)
@@ -121,8 +121,8 @@ while True:
     for blue in blueCircles:
         pygame.draw.circle(screen, (0, 0, 255), (int(blue['pos'][0]), int(blue['pos'][1])), blueRadius)
 
-    timer_text = font.render(f"Time: {seconds}s", True, (0, 0, 0))
-    screen.blit(timer_text, (10, 10))
+    timer = font.render(f"Time: {seconds}s", True, (0, 0, 0))
+    screen.blit(timer, (10, 10))
 
     pygame.display.flip()
     clock.tick(60)
