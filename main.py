@@ -4,7 +4,7 @@ import random
 import math
 
 pygame.init()
-WIDTH, HEIGHT = 1200, 800
+WIDTH, HEIGHT = 1000, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("dodge red")
 clock = pygame.time.Clock()
@@ -19,7 +19,7 @@ blue_radius = 15
 blue_speed = 2
 blue_circles = []
 
-def spawn_blue():
+def spawnBlue():
     x = random.randint(blue_radius, WIDTH - blue_radius)
     y = random.randint(blue_radius, HEIGHT - blue_radius)
     angle = random.uniform(0, 2 * math.pi)
@@ -30,7 +30,7 @@ def spawn_blue():
 def distance(a, b):
     return math.hypot(a[0] - b[0], a[1] - b[1])
 
-def collide_circles(a, b):
+def collideCircles(a, b):
     dx = b['pos'][0] - a['pos'][0]
     dy = b['pos'][1] - a['pos'][1]
     dist = math.hypot(dx, dy)
@@ -58,12 +58,12 @@ def collide_circles(a, b):
     b['pos'][0] += nx * overlap / 2
     b['pos'][1] += ny * overlap / 2
 
-def reset_game():
+def resetGame():
     global blue_circles, start_ticks
-    blue_circles = [spawn_blue()]
+    blue_circles = [spawnBlue()]
     start_ticks = pygame.time.get_ticks()
 
-reset_game()
+resetGame()
 
 while True:
     screen.fill(BG)
@@ -77,11 +77,11 @@ while True:
     red_pos = list(pygame.mouse.get_pos())
 
     if len(blue_circles) < 1 + (seconds // 4):
-        blue_circles.append(spawn_blue())
+        blue_circles.append(spawnBlue())
 
     for i in range(len(blue_circles)):
         for j in range(i + 1, len(blue_circles)):
-            collide_circles(blue_circles[i], blue_circles[j])
+            collideCircles(blue_circles[i], blue_circles[j])
 
     for blue in blue_circles:
         bx, by = blue['pos']
@@ -114,7 +114,7 @@ while True:
         blue['vel'] = [vx, vy]
 
         if distance(blue['pos'], red_pos) < red_radius + blue_radius:
-            reset_game()
+            resetGame()
 
     pygame.draw.circle(screen, RED, red_pos, red_radius)
 
